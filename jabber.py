@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 #
+# Copyright (C) 2020 Dominik Wombacher <dominik@wombacher.cc>
+# Copyright (C) 2017-2019 Bram "Psycojoker" https://github.com/Psycojoker
 # Copyright (C) 2009-2013 Sebastien Helleu <flashcode@flashtux.org>
 # Copyright (C) 2010 xt <xt@bash.no>
 # Copyright (C) 2010 Aleksey V. Zapparov <ixti@member.fsf.org>
@@ -26,6 +28,29 @@
 # Happy chat, enjoy :)
 #
 # History:
+# 2020-06-11, Dominik Wombacher <dominik@wombacher.cc>
+#     version 1.6: minor modification / enhancement without version change
+#                  Python virtualenv supported added based on:
+#                  https://github.com/poljar/weechat-matrix/pull/117
+#                  ======================================================
+#                  forked from https://github.com/Psycojoker/weechat-xmpp
+#                  -> forked from https://github.com/sleduc/weechat-xmpp
+# 2019-03-22, Bram "Psycojoker" https://github.com/Psycojoker
+#     version 1.6: fork, minor modifications / enhancements without version change
+#                  [enh] set ourself nick on direct chat buffer
+#                  [mod] real exception catch
+#                  [mod] autopep8
+# 2017-10-10, Bram "Psycojoker" https://github.com/Psycojoker
+#     version 1.6: fork, minor modifications / enhancements without version change
+#                  [mod] blank lines and a bit of indentation lowering
+#                  [mod] blank lines for lisibility
+#                  [enh] update usage information
+#                  [mod] blank lines for lisibility
+#                  [mod] lower indentantion, add a error message when not connected to a jabber server
+#                  [mod] blank lines for lisibility
+#                  [mod] lower indentation level
+#                  [mod] autopep8
+#                  [mod] display usage information for jchat/jroom when no arguments are provided
 # 2013-09-30, Nils Görs <freenode.nils_2>:
 #     version 1.6: add support of /secure for passwords and jid
 #                : fix stdout/stderr when no JID was set
@@ -84,6 +109,20 @@
 # 2009-02-22, Sebastien Helleu <flashcode@flashtux.org>:
 #     first version (unofficial)
 #
+
+import os
+
+# https://github.com/poljar/weechat-matrix/pull/117
+# See if there is a `venv` directory next to our script, and use that if
+# present. This first resolves symlinks, so this also works when we are
+# loaded through a symlink (e.g. from autoload).
+# See https://virtualenv.pypa.io/en/latest/userguide/#using-virtualenv-without-bin-python
+# This does not support pyvenv or the python3 venv module, which do not
+# create an activate_this.py: https://stackoverflow.com/questions/27462582
+activate_this = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'venv', 'bin', 'activate_this.py')
+if os.path.exists(activate_this):
+    exec(open(activate_this).read(), {'__file__': activate_this})
+
 
 import warnings
 import re
